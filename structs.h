@@ -11,9 +11,10 @@
 
 struct GLUD: public Stringfiable
 {
+    GLUD() = default;
     GLUD(std::set<char> variables, std::set<char> terminals, Productions productions, char start);
 
-    std::string to_string() override;
+    std::string to_string() const override;
 
     std::set<char> variables;
     std::set<char> terminals;
@@ -23,24 +24,32 @@ struct GLUD: public Stringfiable
 
 struct AFND: public Stringfiable
 {
+    AFND() = default;
     AFND(GLUD grammar);
 
-    std::string to_string() override;
+    std::string to_string() const override;
 
-    std::set<char> states;
+    std::vector<State> states;
     std::set<char> alphabet;
     Transitions transitions;
-    char start;
-    std::set<char> final_states;
+    State start;
+    std::vector<State> final_states;
 };
 
 struct AFD: public Stringfiable
 {
+    AFD() = default;
     AFD(AFND automata);
 
-    std::string to_string() override;
+    std::string to_string() const override;
 
     bool recognize_string(std::string input);
     AFD reverse();
     AFD complement();
+
+    std::vector<State> states;
+    std::set<char> alphabet;
+    Transitions transitions;
+    State start;
+    std::vector<State> final_states;
 };

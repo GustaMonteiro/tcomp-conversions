@@ -4,5 +4,22 @@
 #include <map>
 #include <string>
 
-using Transitions = std::map<char, std::map<char, char>>;
+#include "stringfiable.h"
+
+struct State: public Stringfiable
+{
+    std::string to_string() const override;
+
+    std::set<char> components;
+};
+
+struct Transition
+{
+    State origin;
+    char symbol;
+    State destination;
+};
+
+using Transitions = std::vector<Transition>;
+
 using Productions = std::map<char, std::vector<std::string>>;
