@@ -26,7 +26,7 @@ AFND::AFND(GLUD grammar)
 
 std::string AFND::to_string()
 {
-    return "";
+    return "AFND";
 }
 
 AFD::AFD(AFND automata)
@@ -35,7 +35,7 @@ AFD::AFD(AFND automata)
 
 std::string AFD::to_string()
 {
-    return "";
+    return "AFD";
 }
 
 bool AFD::recognize_string(std::string input)
