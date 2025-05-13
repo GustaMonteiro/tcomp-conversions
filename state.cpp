@@ -1,7 +1,6 @@
-#include "definitions.h"
-
 #include <sstream>
 
+#include "state.h"
 #include "utils.h"
 
 State::State(char name, bool is_final_state)

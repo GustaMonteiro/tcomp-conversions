@@ -1,7 +1,10 @@
 #include <iostream>
-
-#include "structs.h"
 #include <set>
+
+#include "glud.h"
+#include "afd.h"
+#include "afnd.h"
+#include "utils.h"
 
 int main()
 {
