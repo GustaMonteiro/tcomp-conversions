@@ -134,11 +134,23 @@ static bool is_state_in_vector(State state, const std::vector<State> &states)
 AFD::AFD(AFND automata)
     : alphabet(automata.alphabet)
 {
-    this->states = generate_subsets(automata.states);
-    // this->states.push_back(automata.epsilon_closure(automata.start));
-    // this->states.push_back(EMPTY);
-
     this->start = automata.epsilon_closure(automata.start);
+
+    this->states.push_back(this->start);
+    this->states.push_back(EMPTY);
+
+    for (int i = 0; i < this->states.size(); i++)
+    {
+        for (auto symbol : this->alphabet)
+        {
+            State destination = automata.transition(this->states[i], symbol);
+            State destination_closure = automata.epsilon_closure(destination);
+            if (!is_state_in_vector(destination_closure, this->states))
+                this->states.push_back(destination_closure);
+
+            this->transitions.emplace_back(this->states[i], symbol, destination_closure);
+        }
+    }
 
     for (auto &state : this->states)
     {
@@ -146,16 +158,6 @@ AFD::AFD(AFND automata)
         {
             this->final_states.push_back(&state);
             state.is_final_state = true;
-        }
-    }
-
-    for (auto state : this->states)
-    {
-        for (auto symbol : this->alphabet)
-        {
-            State destination = automata.transition(state, symbol);
-
-            this->transitions.emplace_back(state, symbol, destination);
         }
     }
 }
