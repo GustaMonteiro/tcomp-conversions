@@ -10,4 +10,5 @@ add_executable(${CMAKE_PROJECT_NAME}
     ${CMAKE_SOURCE_DIR}/main.cpp
     ${CMAKE_SOURCE_DIR}/structs.cpp
     ${CMAKE_SOURCE_DIR}/utils.cpp
+    ${CMAKE_SOURCE_DIR}/definitions.cpp
 )

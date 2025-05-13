@@ -9,7 +9,7 @@
 #include "definitions.h"
 #include "utils.h"
 
-struct GLUD: public Stringfiable
+struct GLUD : public Stringfiable
 {
     GLUD() = default;
     GLUD(std::set<char> variables, std::set<char> terminals, Productions productions, char start);
@@ -22,10 +22,14 @@ struct GLUD: public Stringfiable
     char start;
 };
 
-struct AFND: public Stringfiable
+struct AFND : public Stringfiable
 {
     AFND() = default;
     AFND(GLUD grammar);
+
+    State epsilon_closure(State state) const;
+
+    State transition(const State &origin, char symbol);
 
     std::string to_string() const override;
 
@@ -33,10 +37,10 @@ struct AFND: public Stringfiable
     std::set<char> alphabet;
     Transitions transitions;
     State start;
-    std::vector<State> final_states;
+    std::vector<State *> final_states;
 };
 
-struct AFD: public Stringfiable
+struct AFD : public Stringfiable
 {
     AFD() = default;
     AFD(AFND automata);
@@ -51,5 +55,8 @@ struct AFD: public Stringfiable
     std::set<char> alphabet;
     Transitions transitions;
     State start;
-    std::vector<State> final_states;
+    std::vector<State *> final_states;
+
+private:
+    State transition(const State &origin, char symbol);
 };
