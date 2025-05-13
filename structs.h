@@ -7,6 +7,7 @@
 
 #include "stringfiable.h"
 #include "definitions.h"
+#include "utils.h"
 
 struct GLUD: public Stringfiable
 {
@@ -28,7 +29,7 @@ struct AFND: public Stringfiable
 
     std::set<char> states;
     std::set<char> alphabet;
-    Transition transitions;
+    Transitions transitions;
     char start;
     std::set<char> final_states;
 };

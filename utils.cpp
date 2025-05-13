@@ -54,3 +54,26 @@ std::string productions_as_string(const Productions& productions, std::string na
 
     return ss.str();
 }
+
+std::string transitions_as_string(const Transitions &transitions, std::string name)
+{
+    std::stringstream ss;
+
+    ss << name << " = {\n";
+
+    for(auto& [origin, paths]: transitions)
+    {
+        for(auto& [symbol, destination]: paths)
+            ss << "\t(" << origin << ", " << symbol << ") -> " << destination << '\n';
+    }
+
+    ss << '}';
+
+    return ss.str();
+}
+
+std::ostream& operator<<(std::ostream &stream, Stringfiable& object)
+{
+    stream << object.to_string();
+    return stream;
+}

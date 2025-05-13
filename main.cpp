@@ -14,5 +14,5 @@ int main()
         'S'         // Start symbol
     );
 
-    std::cout << grammar.to_string() << '\n';
+    std::cout << grammar << '\n';
 }
