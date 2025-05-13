@@ -3,7 +3,7 @@
 #include "structs.h"
 #include "utils.h"
 
-GLUD::GLUD(std::set<char> variables, std::set<char> terminals, std::map<char, std::vector<std::string>> productions, char start)
+GLUD::GLUD(std::set<char> variables, std::set<char> terminals, Productions productions, char start)
     : variables(variables), terminals(terminals), productions(productions), start(start)
 {
 }
