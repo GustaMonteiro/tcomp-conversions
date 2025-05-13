@@ -182,7 +182,11 @@ bool AFD::recognize_string(std::string input)
     for (auto symbol : input)
         current_state = this->transition(current_state, symbol);
 
-    return current_state.is_final_state;
+    for (auto final_state : this->final_states)
+        if (current_state == *final_state)
+            return true;
+
+    return false;
 }
 
 AFD AFD::reverse()
@@ -202,4 +206,6 @@ State AFD::transition(const State &origin, char symbol)
         if (trans.origin == origin && trans.symbol == symbol)
             return trans.destination;
     }
+
+    return EMPTY;
 }

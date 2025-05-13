@@ -42,4 +42,20 @@ int main()
     AFD afd(afnd);
 
     std::cout << afd << '\n';
+
+    std::vector<std::pair<std::string, bool>> inputs{
+        {"", true},
+        {"a", false},
+        {"b", false},
+        {"ab", true},
+        {"ba", false},
+        {"aab", true},
+        {"aabb", false},
+        {"aaaaaaaab", true},
+        {"aaaaaaaaaabb", false},
+        {"aaaaaabaaab", false},
+    };
+
+    for (auto &[input, expected] : inputs)
+        std::cout << "Input: " << input << ", expected: " << expected << ", result: " << afd.recognize_string(input) << '\n';
 }
