@@ -8,4 +8,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 add_executable(${CMAKE_PROJECT_NAME}
     ${CMAKE_SOURCE_DIR}/main.cpp
+    ${CMAKE_SOURCE_DIR}/afd.cpp
+    ${CMAKE_SOURCE_DIR}/afnd.cpp
+    ${CMAKE_SOURCE_DIR}/glud.cpp
+    ${CMAKE_SOURCE_DIR}/printable.cpp
+    ${CMAKE_SOURCE_DIR}/state.cpp
+    ${CMAKE_SOURCE_DIR}/transition.cpp
 )
