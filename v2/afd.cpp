@@ -32,7 +32,18 @@ AFD AFD::reverse() const
 
 AFD AFD::complement() const
 {
-    return AFD();
+    AFD complement;
+
+    complement.states = this->states;
+    complement.alphabet = this->alphabet;
+    complement.transitions = this->transitions;
+    complement.start = this->start;
+
+    for (auto &state : this->states)
+        if (!this->is_final_state(state))
+            complement.final_states.insert(state);
+
+    return complement;
 }
 
 bool AFD::accept_string(std::string str) const

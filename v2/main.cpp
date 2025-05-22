@@ -86,4 +86,17 @@ int main()
         input = reverse_string(input);
         std::cout << "Input: " << input << ", expected: " << expected << ", result: " << reversed_afd.accept_string(input) << '\n';
     }
+    std::cout << '\n';
+
+    AFD complement_afd = afd.complement();
+
+    std::cout << "Complement AFD:\n";
+    std::cout << complement_afd << '\n';
+
+    std::cout << "-> Testing reversed inputs for Complement AFD:\n";
+    for (auto [input, expected] : inputs)
+    {
+        expected = !expected;
+        std::cout << "Input: " << input << ", expected: " << expected << ", result: " << complement_afd.accept_string(input) << '\n';
+    }
 }
