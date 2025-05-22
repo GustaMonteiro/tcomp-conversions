@@ -18,6 +18,8 @@ struct AFD: public Printable
 
     bool accept_string(std::string str) const;
     bool contain_state(State state) const;
+    State transition(State origin, char symbol) const;
+    bool is_final_state(State state) const;
 
     std::string to_string() const override;
 

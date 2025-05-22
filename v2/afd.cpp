@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "afd.h"
+#include "definitions.h"
 
 AFD::AFD(AFND afnd)
 {
@@ -9,12 +10,33 @@ AFD::AFD(AFND afnd)
 
 bool AFD::accept_string(std::string str) const
 {
-    return false;
+    State current_state = this->start;
+
+    for (auto symbol : str)
+        current_state = this->transition(current_state, symbol);
+
+    return this->is_final_state(current_state);
 }
 
 bool AFD::contain_state(State state) const
 {
     return this->states.find(state) != this->states.end();
+}
+
+State AFD::transition(State origin, char symbol) const
+{
+    for (const auto &transition : this->transitions)
+    {
+        if (transition.origin == origin && transition.symbol == symbol)
+            return transition.destination;
+    }
+
+    return VOID_STATE;
+}
+
+bool AFD::is_final_state(State state) const
+{
+    return this->final_states.find(state) != this->final_states.end();
 }
 
 std::string AFD::to_string() const
