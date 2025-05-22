@@ -10,6 +10,28 @@ AFD::AFD(AFND afnd)
 
 AFD AFD::reverse() const
 {
+    AFND to_reverse;
+
+    to_reverse.states = this->states;
+    to_reverse.states.insert('Z');
+
+    to_reverse.alphabet = this->alphabet;
+
+    for (auto &[origin, symbol, destination] : this->transitions)
+        to_reverse.transitions.insert({destination, symbol, origin});
+
+    for (auto &final_state : this->final_states)
+        to_reverse.transitions.insert({'Z', EPSILON_SYMBOL, final_state});
+
+    to_reverse.start = 'Z';
+
+    to_reverse.final_states.insert(this->start);
+
+    return to_reverse.convert_to_deterministic();
+}
+
+AFD AFD::complement() const
+{
     return AFD();
 }
 

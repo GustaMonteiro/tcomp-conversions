@@ -14,6 +14,7 @@ struct AFD;
 // delta = (qi, a) -> qj  |  qi, qj E Q e a E Sigma
 struct AFND: public Printable
 {
+    AFND() = default;
     AFND(GLUD grammar);
     AFND(AFD afd);
 
