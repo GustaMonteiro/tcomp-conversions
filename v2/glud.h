@@ -15,6 +15,9 @@ struct GLUD : public Printable
          std::map<char, std::vector<std::string>> productions,
          char start);
 
+    bool is_variable(char chr) const;
+    bool is_terminal(char chr) const;
+
     std::string to_string() const override;
 
     std::set<char> variables;

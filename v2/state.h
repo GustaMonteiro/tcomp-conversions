@@ -5,9 +5,10 @@
 
 #include "printable.h"
 
-struct State: public Printable
+struct State : public Printable
 {
     State() = default;
+    State(char name);
     State(std::string name);
     State(std::set<std::string> components);
 
@@ -15,3 +16,5 @@ struct State: public Printable
 
     std::set<std::string> components;
 };
+
+bool operator<(const State &left, const State &right);

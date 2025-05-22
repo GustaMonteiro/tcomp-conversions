@@ -63,6 +63,27 @@ std::ostream &operator<<(std::ostream &stream, const std::set<char> &set)
     return stream;
 }
 
+std::ostream &operator<<(std::ostream &stream, const std::set<std::string> &set)
+{
+    stream << '{';
+
+    bool need_comma = false;
+
+    for (auto &value : set)
+    {
+        if (need_comma)
+            stream << ", ";
+
+        stream << value;
+
+        need_comma = true;
+    }
+
+    stream << '}';
+
+    return stream;
+}
+
 std::ostream &operator<<(std::ostream &stream, const std::map<char, std::vector<std::string>> &productions)
 {
     stream << "{\n";
