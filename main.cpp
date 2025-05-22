@@ -33,30 +33,6 @@ int main()
         'S' // Start symbol
     );
 
-#else
-    // PROFESSOR'S GRAMMAR
-
-    GLUD grammar(
-        {'S', 'A'}, // Variables
-        {'a', 'b'}, // Terminals
-        {           // Productions
-         {'S', {"aA", EPSILON_STRING}},
-         {'A', {"bS"}}},
-        'S' // Start symbol
-    );
-#endif
-
-    std::cout << "=> Original Grammar:\n";
-    std::cout << grammar << '\n';
-
-    AFND afnd(grammar);
-    std::cout << "=> Original AFND:\n";
-    std::cout << afnd << '\n';
-
-    AFD afd(afnd);
-    std::cout << "=> Original AFD:\n";
-    std::cout << afd << '\n';
-
     std::vector<std::pair<std::string, bool>> inputs{
         {"", true},
         {"a", false},
@@ -69,6 +45,49 @@ int main()
         {"aaaaaaaaaabb", false},
         {"aaaaaabaaab", false},
     };
+
+#else
+    // PROFESSOR'S GRAMMAR
+
+    GLUD grammar(
+        {'S', 'A'}, // Variables
+        {'a', 'b'}, // Terminals
+        {           // Productions
+         {'S', {"aA", EPSILON_STRING}},
+         {'A', {"bS"}}},
+        'S' // Start symbol
+    );
+
+    std::vector<std::pair<std::string, bool>> inputs{
+        {"", true},
+        {"a", false},
+        {"b", false},
+        {"ab", true},
+        {"ba", false},
+        {"aab", false},
+        {"aabb", false},
+        {"aaaaaaaab", false},
+        {"aaaaaaaaaabb", false},
+        {"aaaaaabaaab", false},
+        {"abab", true},
+        {"ababababab", true},
+        {"abababaabab", false},
+        {"abababbabab", false},
+        {"ababababa", false},
+        {"bababab", false},
+    };
+#endif
+
+    std::cout << "=> Original Grammar:\n";
+    std::cout << grammar << '\n';
+
+    AFND afnd(grammar);
+    std::cout << "=> Original AFND:\n";
+    std::cout << afnd << '\n';
+
+    AFD afd(afnd);
+    std::cout << "=> Original AFD:\n";
+    std::cout << afd << '\n';
 
     std::cout << "-> Testing inputs for AFD:\n";
     for (auto &[input, expected] : inputs)

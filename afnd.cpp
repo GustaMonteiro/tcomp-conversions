@@ -88,6 +88,7 @@ AFD AFND::convert_to_deterministic() const
         for (auto &symbol : this->alphabet)
         {
             State destination = this->transition(current_state, symbol);
+            destination = this->epsilon_closure(destination);
 
             afd.transitions.insert({current_state, symbol, destination});
 
@@ -132,10 +133,13 @@ State AFND::epsilon_closure(State state) const
 {
     State closure = state;
 
-    for (auto &[origin, symbol, destination] : this->transitions)
+    for (auto &component : state.components)
     {
-        if (origin == state && symbol == EPSILON_SYMBOL)
-            closure += this->epsilon_closure(destination);
+        for (auto &[origin, symbol, destination] : this->transitions)
+        {
+            if (origin == component && symbol == EPSILON_SYMBOL)
+                closure += this->epsilon_closure(destination);
+        }
     }
 
     return closure;
