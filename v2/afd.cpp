@@ -8,6 +8,11 @@ AFD::AFD(AFND afnd)
     *this = afnd.convert_to_deterministic();
 }
 
+AFD AFD::reverse() const
+{
+    return AFD();
+}
+
 bool AFD::accept_string(std::string str) const
 {
     State current_state = this->start;

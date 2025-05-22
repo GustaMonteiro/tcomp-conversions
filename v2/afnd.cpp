@@ -54,7 +54,6 @@ AFD AFND::convert_to_deterministic() const
     // we'll be constructing the states gradually, starting from the start state
     // and a state VOID, where all undefined transitions will be directed
     afd.states.insert(afd.start);
-    afd.states.insert(VOID_STATE);
 
     std::queue<State> to_visit;
     to_visit.push(afd.start);

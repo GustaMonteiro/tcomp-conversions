@@ -16,6 +16,9 @@ struct AFD: public Printable
     AFD() = default;
     AFD(AFND afnd);
 
+    AFD reverse() const;
+    AFD complement() const;
+
     bool accept_string(std::string str) const;
     bool contain_state(State state) const;
     State transition(State origin, char symbol) const;
