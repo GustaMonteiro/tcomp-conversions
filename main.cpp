@@ -93,7 +93,7 @@ int main()
     std::cout << "Complement AFD:\n";
     std::cout << complement_afd << '\n';
 
-    std::cout << "-> Testing reversed inputs for Complement AFD:\n";
+    std::cout << "-> Testing inputs for Complement AFD:\n";
     for (auto [input, expected] : inputs)
     {
         expected = !expected;
