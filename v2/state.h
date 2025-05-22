@@ -14,7 +14,12 @@ struct State : public Printable
 
     std::string to_string() const override;
 
+    void operator+=(const State& s);
+
     std::set<std::string> components;
 };
 
+bool operator==(const State &left, const State &right);
+bool operator!=(const State &left, const State &right);
 bool operator<(const State &left, const State &right);
+State operator+(const State &s1, const State &s2);

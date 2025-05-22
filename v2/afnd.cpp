@@ -2,6 +2,7 @@
 
 #include "afnd.h"
 #include "definitions.h"
+#include <queue>
 
 AFND::AFND(GLUD grammar)
     : alphabet(grammar.terminals), start(grammar.start)
@@ -39,17 +40,81 @@ AFND::AFND(GLUD grammar)
 }
 
 AFND::AFND(AFD afd)
+    : states(afd.states), alphabet(afd.alphabet), transitions(afd.transitions), start(afd.start), final_states(afd.final_states)
 {
 }
 
 AFD AFND::convert_to_deterministic() const
 {
-    return AFD();
+    AFD afd;
+
+    afd.start = this->epsilon_closure(this->start);
+    afd.alphabet = this->alphabet;
+
+    // we'll be constructing the states gradually, starting from the start state
+    // and a state VOID, where all undefined transitions will be directed
+    afd.states.insert(afd.start);
+    afd.states.insert(VOID_STATE);
+
+    std::queue<State> to_visit;
+    to_visit.push(afd.start);
+
+    while (!to_visit.empty())
+    {
+        State current_state = to_visit.front();
+        to_visit.pop();
+
+        for (auto &component : current_state.components)
+            if (this->final_states.find(component) != this->final_states.end())
+                afd.final_states.insert(current_state);
+
+        for (auto &symbol : this->alphabet)
+        {
+            State destination = this->transition(current_state, symbol);
+
+            afd.transitions.insert({current_state, symbol, destination});
+
+            if (!afd.contain_state(destination))
+            {
+                to_visit.push(destination);
+                afd.states.insert(destination);
+            }
+        }
+    }
+
+    return afd;
 }
 
 State AFND::epsilon_closure(State state) const
 {
-    return State();
+    State closure = state;
+
+    for (auto &[origin, symbol, destination] : this->transitions)
+    {
+        if (origin == state && symbol == EPSILON_SYMBOL)
+            closure += this->epsilon_closure(destination);
+    }
+
+    return closure;
+}
+
+State AFND::transition(State origin, char symbol) const
+{
+    State destination;
+
+    for (auto &component : origin.components)
+    {
+        for (auto &[transition_origin, transition_symbol, transition_destination] : this->transitions)
+        {
+            if (transition_origin == component && transition_symbol == symbol)
+                destination += transition_destination;
+        }
+    }
+
+    if (destination.components.empty())
+        return VOID_STATE;
+
+    return destination;
 }
 
 std::string AFND::to_string() const

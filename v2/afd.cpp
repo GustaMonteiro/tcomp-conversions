@@ -4,11 +4,17 @@
 
 AFD::AFD(AFND afnd)
 {
+    *this = afnd.convert_to_deterministic();
 }
 
 bool AFD::accept_string(std::string str) const
 {
     return false;
+}
+
+bool AFD::contain_state(State state) const
+{
+    return this->states.find(state) != this->states.end();
 }
 
 std::string AFD::to_string() const

@@ -17,6 +17,7 @@ struct AFD: public Printable
     AFD(AFND afnd);
 
     bool accept_string(std::string str) const;
+    bool contain_state(State state) const;
 
     std::string to_string() const override;
 

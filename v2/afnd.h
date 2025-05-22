@@ -19,6 +19,7 @@ struct AFND: public Printable
 
     AFD convert_to_deterministic() const;
     State epsilon_closure(State state) const;
+    State transition(State origin, char symbol) const;
 
     std::string to_string() const override;
 
