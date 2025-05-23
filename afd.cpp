@@ -1,7 +1,26 @@
 #include <sstream>
+#include <iostream>
 
 #include "afd.h"
 #include "definitions.h"
+
+static std::string create_state_with_index(size_t index)
+{
+    std::stringstream ss;
+    ss << 'q' << index;
+    return ss.str();
+}
+
+static void print_renaming_mapping(const std::map<State, State> &renaming_mapping)
+{
+    std::cout << ">> Renaming States:\n\n";
+
+    for (auto &[before, after] : renaming_mapping)
+        std::cout << before << " -> " << after << '\n';
+
+    std::cout << '\n';
+}
+
 
 AFD::AFD(AFND afnd)
 {
@@ -75,6 +94,35 @@ State AFD::transition(State origin, char symbol) const
 bool AFD::is_final_state(State state) const
 {
     return this->final_states.find(state) != this->final_states.end();
+}
+
+void AFD::rename_states()
+{
+    std::map<State, State> renaming_mapping;
+
+    size_t i = 0;
+
+    for (auto &state : this->states)
+        renaming_mapping.insert({state, create_state_with_index(i++)});
+
+    print_renaming_mapping(renaming_mapping);
+
+    this->start = renaming_mapping[this->start];
+
+    std::set<State> renamed_states;
+    for (auto &state : this->states)
+        renamed_states.insert(renaming_mapping[state]);
+    this->states = renamed_states;
+
+    std::set<State> renamed_final_states;
+    for (auto &final_state : this->final_states)
+        renamed_final_states.insert(renaming_mapping[final_state]);
+    this->final_states = renamed_final_states;
+
+    std::set<Transition> renamed_transitions;
+    for (auto &[origin, symbol, destination] : this->transitions)
+        renamed_transitions.insert({renaming_mapping[origin], symbol, renaming_mapping[destination]});
+    this->transitions = renamed_transitions;
 }
 
 std::string AFD::to_string() const

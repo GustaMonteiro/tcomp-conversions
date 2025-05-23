@@ -23,6 +23,7 @@ struct AFD: public Printable
     bool contain_state(State state) const;
     State transition(State origin, char symbol) const;
     bool is_final_state(State state) const;
+    void rename_states();
 
     std::string to_string() const override;
 

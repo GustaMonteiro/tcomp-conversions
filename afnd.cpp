@@ -1,26 +1,8 @@
 #include <sstream>
 #include <queue>
-#include <iostream>
 
 #include "afnd.h"
 #include "definitions.h"
-
-static std::string create_state_with_index(size_t index)
-{
-    std::stringstream ss;
-    ss << 'q' << index;
-    return ss.str();
-}
-
-static void print_renaming_mapping(const std::map<State, State> &renaming_mapping)
-{
-    std::cout << ">> Renaming States:\n\n";
-
-    for (auto &[before, after] : renaming_mapping)
-        std::cout << before << " -> " << after << '\n';
-
-    std::cout << '\n';
-}
 
 AFND::AFND(GLUD grammar)
     : alphabet(grammar.terminals), start(grammar.start)
@@ -100,31 +82,7 @@ AFD AFND::convert_to_deterministic() const
         }
     }
 
-    std::map<State, State> renaming_mapping;
-
-    size_t i = 0;
-
-    for (auto &state : afd.states)
-        renaming_mapping.insert({state, create_state_with_index(i++)});
-
-    print_renaming_mapping(renaming_mapping);
-
-    afd.start = renaming_mapping[afd.start];
-
-    std::set<State> renamed_states;
-    for (auto &state : afd.states)
-        renamed_states.insert(renaming_mapping[state]);
-    afd.states = renamed_states;
-
-    std::set<State> renamed_final_states;
-    for (auto &final_state : afd.final_states)
-        renamed_final_states.insert(renaming_mapping[final_state]);
-    afd.final_states = renamed_final_states;
-
-    std::set<Transition> renamed_transitions;
-    for (auto &[origin, symbol, destination] : afd.transitions)
-        renamed_transitions.insert({renaming_mapping[origin], symbol, renaming_mapping[destination]});
-    afd.transitions = renamed_transitions;
+    afd.rename_states();
 
     return afd;
 }
