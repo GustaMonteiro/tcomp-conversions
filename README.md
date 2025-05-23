@@ -24,6 +24,12 @@ Caso queira apenas fazer as conversões de uma gramática que esteja em um arqui
 tcomp -f <caminho_para_arquivo>
 ```
 
+Caso deseje gerar as saídas de acordo com o que foi solicitado no trabalho, basta incluir além do caminho para o arquivo, um parâmetro `-w` e em seguida uma cadeia de entrada. Por exemplo:
+
+```
+tcomp -f <caminho_para_arquivo> -w <cadeia>
+```
+
 ### Formato do arquivo
 
 Uma GLUD é um conjunto $G = {V, T, P, S}$, onde $V$ é um conjunto de variáveis, $T$ é um conjunto de símbolos terminais, $P$ é um conjunto de produções no formato $\alpha \rightarrow \beta$, onde $\alpha \in V$ e $\beta \in \{\epsilon, t, v, tv\}$, para $t \in T$ e $v \in V$.
