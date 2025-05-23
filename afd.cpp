@@ -27,6 +27,25 @@ AFD::AFD(AFND afnd)
     *this = afnd.convert_to_deterministic();
 }
 
+/*
+Input:  AFD = {Q', Sigma', delta', q0', F'}
+            delta' = (q_i, a) -> q_j  |  q_i, q_j IN Q' and a IN Sigma'
+
+Output: AFD_REV = {Q, Sigma, delta, q0, F}
+            delta = (q_i, a) -> q_j  |  q_i, q_j IN Q and a IN Sigma
+
+Process:
+        Create an AFND with the following steps:
+
+        1. Q = Q' U {Z}  =>  New initial state
+        2. Sigma = Sigma'
+        3. delta = (q_j, a) -> q_i FORALL (q_i, a) -> q_j IN delta'
+                   U (Z, @) -> f  |  q_i, q_j IN Q' and f IN F'
+        4. q0 = Z
+        5. F = {q0'}
+        
+        To finish, convert the AFND to AFD.
+*/
 AFD AFD::reverse() const
 {
     AFND to_reverse;
@@ -36,9 +55,11 @@ AFD AFD::reverse() const
 
     to_reverse.alphabet = this->alphabet;
 
+    // invert transitions
     for (auto &[origin, symbol, destination] : this->transitions)
         to_reverse.transitions.insert({destination, symbol, origin});
 
+    // add inverted transitions from new state Z to the previous final states
     for (auto &final_state : this->final_states)
         to_reverse.transitions.insert({'Z', EPSILON_SYMBOL, final_state});
 
@@ -49,6 +70,20 @@ AFD AFD::reverse() const
     return to_reverse.convert_to_deterministic();
 }
 
+/*
+Input:  AFD = {Q', Sigma', delta', q0', F'}
+            delta' = (q_i, a) -> q_j  |  q_i, q_j IN Q' and a IN Sigma'
+
+Output: AFD_COMP = {Q, Sigma, delta, q0, F}
+            delta = (q_i, a) -> q_j  |  q_i, q_j IN Q and a IN Sigma
+
+Process:
+        1. Q = Q'
+        2. Sigma = Sigma'
+        3. delta = delta'
+        4. q0 = q0'
+        5. F = {f | f NOTIN F'}
+*/
 AFD AFD::complement() const
 {
     AFD complement;
@@ -58,6 +93,7 @@ AFD AFD::complement() const
     complement.transitions = this->transitions;
     complement.start = this->start;
 
+    // each state that wasn't final will become final, and the ones that was final won't be anymore
     for (auto &state : this->states)
         if (!this->is_final_state(state))
             complement.final_states.insert(state);
