@@ -105,7 +105,7 @@ void AFD::rename_states()
     for (auto &state : this->states)
         renaming_mapping.insert({state, create_state_with_index(i++)});
 
-    print_renaming_mapping(renaming_mapping);
+    // print_renaming_mapping(renaming_mapping);
 
     this->start = renaming_mapping[this->start];
 

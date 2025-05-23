@@ -8,19 +8,19 @@
 #include "afd.h"
 #include "afnd.h"
 #include "definitions.h"
+#include "test_inputs.h"
 
-static std::string reverse_string(const std::string &str)
+int main(int argc, char **argv)
 {
-    std::stringstream ss;
+    if (argc > 1 && std::string(argv[1]) == "-t")
+    {
+        if (run_all_grammar_tests())
+            return -1;
 
-    for (auto rit = str.rbegin(); rit != str.rend(); rit++)
-        ss << *rit;
+        std::cout << "All tests passed!\n\n";
+        return 0;
+    }
 
-    return ss.str();
-}
-
-int main()
-{
 #if 1
     // MY GRAMMAR:
 
