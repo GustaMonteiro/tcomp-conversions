@@ -7,13 +7,39 @@ Além das conversões, o programa é capaz de aplicar as operações de Reverso 
 ## Build
 
 ```
-    mkdir build
-    cmake -S . -B build/
-    cmake --build build/
+mkdir build
+cmake -S . -B build/
+cmake --build build/
 ```
 
 ## Execução
 
 Se apenas executar o binário gerado, o programa irá realizar todo o processo para a gramática que já está na função main.
 
-Caso queira executar todos os testes com as gramáticas no arquivo `test_inputs.h`, baste executar o programa passando o parâmetro `-t`.
+Caso queira executar todos os testes com as gramáticas no arquivo `test_inputs.h`, basta executar o programa passando o parâmetro `-t`.
+
+Caso queira apenas fazer as conversões de uma gramática que esteja em um arquivo de texto, basta executar o programa passando o parâmetro `-f` e em seguida o caminho para um arquivo. Por exemplo:
+
+```
+tcomp -f <caminho_para_arquivo>
+```
+
+### Formato do arquivo
+
+Uma GLUD é um conjunto $G = {V, T, P, S}$, onde $V$ é um conjunto de variáveis, $T$ é um conjunto de símbolos terminais, $P$ é um conjunto de produções no formato $\alpha \rightarrow \beta$, onde $\alpha \in V$ e $\beta \in \{\epsilon, t, v, tv\}$, para $t \in T$ e $v \in V$.
+
+A primeira linha do arquivo de entrada deverá ser um inteiro **A** representando a quantidade de variáveis. Na segunda linha devem ser colocadas as **A** variáveis, separadas por espaço. A terceira linha será um inteiro **B** representando a quantidade de simbolos terminais. A quarta linha consistirá nos **B** simbolos terminais, separados por espaço. A quinta linha será um inteiro **C** representando o número de produções da gramática. Cada uma das **C** proximas linhas deverá ter uma produção no formato  `A -> B`. Por fim, a última linha do arquivo será a variável inicial da gramática.
+
+Um exemplo de arquivo de entrada seria:
+
+```
+2
+S A
+2
+a b
+3
+S -> aA
+A -> bS
+S -> @
+S
+```
