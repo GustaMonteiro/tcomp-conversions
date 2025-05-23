@@ -10,6 +10,7 @@
 // GLUD = {V, T, P, S}
 struct GLUD : public Printable
 {
+    GLUD() = default;
     GLUD(std::set<char> variables,
          std::set<char> terminals,
          std::map<char, std::vector<std::string>> productions,

@@ -14,4 +14,5 @@ add_executable(${CMAKE_PROJECT_NAME}
     ${CMAKE_SOURCE_DIR}/printable.cpp
     ${CMAKE_SOURCE_DIR}/state.cpp
     ${CMAKE_SOURCE_DIR}/transition.cpp
+    ${CMAKE_SOURCE_DIR}/file_reader.cpp
 )
