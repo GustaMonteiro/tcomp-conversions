@@ -44,6 +44,26 @@ AFND::AFND(AFD afd)
 {
 }
 
+/*
+Input:  AFND = {Q', Sigma', delta', q0', F'}
+            delta' = (q_i, a) -> q_j  |  q_i, q_j IN Q' and a IN Sigma'
+
+Output: AFD = {Q, Sigma, delta, q0, F}
+            delta = (q_i, a) -> q_j  |  q_i, q_j IN Q and a IN Sigma
+
+E(q) =  Epsilon Closure for State q. It is the set of reachable states
+        starting from q using only Epsilon transitions
+U(x) =  Union over all x
+
+Process:
+        1.  Q = P(Q') =>  All subsets of Q'
+                Note:   the unreachable States won't be included in this
+                        implementation, since it was done with a BFS
+        2.  Sigma = Sigma'
+        3.  delta = (S, a) -> E(U(delta'(s, a)) | S SUBSET Q, a IN Sigma, s IN S
+        4.  q0 = E(q0')
+        5.  F = {S IN Q | S INTERSECTION F' NOT EMPTY}
+*/
 AFD AFND::convert_to_deterministic() const
 {
     AFD afd;
@@ -52,7 +72,6 @@ AFD AFND::convert_to_deterministic() const
     afd.alphabet = this->alphabet;
 
     // we'll be constructing the states gradually, starting from the start state
-    // and a state VOID, where all undefined transitions will be directed
     afd.states.insert(afd.start);
 
     std::queue<State> to_visit;
@@ -69,6 +88,8 @@ AFD AFND::convert_to_deterministic() const
 
         for (auto &symbol : this->alphabet)
         {
+            // at this point, if no transition were found, the transition will return a state VOID,
+            // where all undefined transitions will be directed
             State destination = this->transition(current_state, symbol);
             destination = this->epsilon_closure(destination);
 
@@ -82,6 +103,7 @@ AFD AFND::convert_to_deterministic() const
         }
     }
 
+    // rename all states to avoid dealing with very complex states
     afd.rename_states();
 
     return afd;
