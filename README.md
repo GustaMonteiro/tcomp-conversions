@@ -34,6 +34,8 @@ tcomp -f <caminho_para_arquivo> -w <cadeia>
 
 Uma GLUD é um conjunto $G = \{V, T, P, S\}$, onde $V$ é um conjunto de variáveis, $T$ é um conjunto de símbolos terminais, $P$ é um conjunto de produções no formato $\alpha \rightarrow \beta$, onde $\alpha \in V$ e $\beta \in \{\epsilon, t, v, tv\}$, para $t \in T$ e $v \in V$.
 
+> Nesse projeto, o símbolo $\epsilon$ é representado por um `@`.
+
 A primeira linha do arquivo de entrada deverá ser um inteiro **A** representando a quantidade de variáveis. Na segunda linha devem ser colocadas as **A** variáveis, separadas por espaço. A terceira linha será um inteiro **B** representando a quantidade de simbolos terminais. A quarta linha consistirá nos **B** simbolos terminais, separados por espaço. A quinta linha será um inteiro **C** representando o número de produções da gramática. Cada uma das **C** proximas linhas deverá ter uma produção no formato  `A -> B`. Por fim, a última linha do arquivo será a variável inicial da gramática.
 
 Um exemplo de arquivo de entrada seria:
