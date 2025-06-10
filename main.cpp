@@ -191,9 +191,10 @@ void generate_expected_outputs(GLUD grammar, std::string input)
     write_to_file(reverse, "REV.txt");
     write_to_file(complement, "COMP.txt");
 
-    bool result = afd.accept_string(input);
-
     std::cout << "Cadeia: " << input << '\n';
-    std::cout << "Resultado: " << (result ? "Aceita" : "Rejeita") << '\n';
+    std::cout << "Resultados:\n";
+    std::cout << "\tOriginal: "  << (afd.accept_string(input) ? "Aceita" : "Rejeita") << '\n';
+    std::cout << "\tReverso: "  << (reverse.accept_string(input) ? "Aceita" : "Rejeita") << '\n';
+    std::cout << "\tComplemento: "  << (complement.accept_string(input) ? "Aceita" : "Rejeita") << '\n';
     std::cout << "Arquivos gerados: AFN.txt, AFD.txt, REV.txt, COMP.txt\n";
 }
